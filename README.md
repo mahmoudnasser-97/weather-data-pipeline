@@ -1,3 +1,5 @@
+![Run Weather Pipeline](https://github.com/mahmoudnasser-97/weather-data-pipeline/actions/workflows/daily_weather.yml/badge.svg)
+
 # 🌦️ Real-Time Weather Data Pipeline
 
 An end-to-end Data Engineering pipeline that extracts weather data, cleans it using the Medallion Architecture, and stores it in a DuckDB Data Warehouse.
