@@ -1,0 +1,39 @@
+name: Run Weather Pipeline
+
+on:
+  schedule:
+    - cron: '0 * * * *' # This means "Run every hour at minute 0"
+  workflow_dispatch: # This allows us to run it manually for testing
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install requests pandas duckdb python-dotenv
+
+    - name: Run Pipeline
+      env:
+        OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+      run: |
+        python extract_weather.py
+        python transform_weather.py
+        python load_to_warehouse.py
+
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name "GitHub Action"
+        git config --global user.email "action@github.com"
+        git add data/
+        git commit -m "Automated data update: $(date)"
+        git push
