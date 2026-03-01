@@ -1,32 +1,40 @@
 import os
 import requests
 import json
+from datetime import datetime
 from dotenv import load_dotenv
 
-# 1. Load the secret key from our .env file
 load_dotenv()
-API_KEY = os.getenv("05319863fbf64b63685c18b497163508")
-
-# 2. Define the city we want to track (You can change this to Cairo or London!)
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
 CITY = "Cairo"
-URL = f"https://api.openweathermap.org/data/2.5/weather?q=Cairo&appid=05319863fbf64b63685c18b497163508&units=metric"
 
 def fetch_weather_data():
-    # 3. Ask the internet for the data
-    response = requests.get(URL)
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={CITY}&appid={API_KEY}&units=metric"
+    response = requests.get(url)
     
-    # 4. Check if the connection worked (Status 200 means "OK")
     if response.status_code == 200:
         data = response.json()
-        print(f"Successfully fetched data for Cairo!")
         
-        # 5. Save this "Raw" data to a file so we don't lose it
-        with open("raw_weather_data.json", "w") as f:
+        # --- NEW LOGIC: DATA VERSIONING ---
+        # 1. Create a unique filename using the current date and time
+        # Format: 2024-05-20_14-30-05.json
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        filename = f"weather_{CITY}_{timestamp}.json"
+        
+        # 2. Define the path to the Bronze folder
+        folder_path = "data/bronze"
+        
+        # 3. Create the folder if it doesn't exist (safety check)
+        os.makedirs(folder_path, exist_ok=True)
+        
+        # 4. Save the file into the Bronze folder
+        file_path = os.path.join(folder_path, filename)
+        with open(file_path, "w") as f:
             json.dump(data, f, indent=4)
-        print("Data saved to raw_weather_data.json")
+            
+        print(f"✅ Success! Raw data saved to: {file_path}")
     else:
-        print(f"Error: {response.status_code}")
+        print(f"❌ Failed to fetch data. Error: {response.status_code}")
 
-# Run the function
 if __name__ == "__main__":
     fetch_weather_data()
