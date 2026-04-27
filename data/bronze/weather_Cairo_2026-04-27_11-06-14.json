@@ -1,0 +1,45 @@
+{
+    "coord": {
+        "lon": 31.2497,
+        "lat": 30.0626
+    },
+    "weather": [
+        {
+            "id": 803,
+            "main": "Clouds",
+            "description": "broken clouds",
+            "icon": "04d"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 24.42,
+        "feels_like": 23.91,
+        "temp_min": 24.12,
+        "temp_max": 24.42,
+        "pressure": 1013,
+        "humidity": 38,
+        "sea_level": 1013,
+        "grnd_level": 1006
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 5.14,
+        "deg": 290
+    },
+    "clouds": {
+        "all": 75
+    },
+    "dt": 1777287884,
+    "sys": {
+        "type": 1,
+        "id": 2514,
+        "country": "EG",
+        "sunrise": 1777259753,
+        "sunset": 1777307351
+    },
+    "timezone": 10800,
+    "id": 360630,
+    "name": "Cairo",
+    "cod": 200
+}
